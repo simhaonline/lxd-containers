@@ -1,6 +1,6 @@
 # Provision Kubernetes cluster with lxc containers
 
-####* This repo contains the necessary files to provision kuberenets cluster I will try step by step approach for this.
+#### This repo contains the necessary files to provision kuberenets cluster I will try step by step approach for this.
 
 I am using Neo User (Ubuntu 20-04) for this purpose. First install lxd runtime as below.
 
