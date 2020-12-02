@@ -1,0 +1,38 @@
+---
+- name: Install docker on all hosts
+  hosts: template
+  tasks:
+    - name: Install yum utils
+      yum:
+        name: yum-utils
+        state: present
+
+    - name: Install device-mapper-persistent-data
+      yum:
+        name: device-mapper-persistent-data
+        state: present
+
+    - name: Install lvm2
+      yum:
+        name: lvm2
+        state: present
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker
+      package:
+        name: docker-ce
+        state: present
+      become: yes
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+
+

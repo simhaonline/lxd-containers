@@ -1,0 +1,18 @@
+lxc profile create k8s
+
+#Edit the profile & replace the contents in this file with the contents from lxd-profile
+lxc profile edit k8s
+
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+
+kubeadm config images list
+kubeadm config images pull
+
+kubeadm init --pod-network-cidr=10.244.0.0/16  
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+
+kubeadm join 172.25.25.28:6443 --token 60x6oz.e73zyvf84q42rik6 \
+    --discovery-token-ca-cert-hash sha256:e0dc2ee63bfb54788c7f8cd463f254d0f124676ad40a39818c4d9114044f8946 

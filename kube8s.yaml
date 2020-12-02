@@ -1,0 +1,46 @@
+---
+- name: Install kuberenetes packages on all hosts
+  hosts: template
+  tasks:
+    - name: Copy kubernetes repo file to servers
+      copy:
+        src: ./kubernetes.repo
+        dest: /etc/yum.repos.d/
+
+    - name: Copy k8s.conf file to servers
+      copy:
+        src: ./k8s.conf
+        dest: /etc/sysctl.d/
+
+    - name: Copy docker custom daeom file to servers
+      copy:
+        src: ./daemon.json
+        dest: /etc/docker/
+
+    - name: Create a directory if it does not exist
+      file:
+        path: /etc/systemd/system/docker.service.d
+        state: directory
+
+    - name: Installing kubeadm, kubelet and kubectl
+      package:
+        name: 
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+        disable_excludes: kubernetes
+
+    - name: Restart & enable kubelet service
+      service:
+        name: kubelet
+        state: restarted
+        enabled: yes
+
+    - name: Restart & enable docker service
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+
